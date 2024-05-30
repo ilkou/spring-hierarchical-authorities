@@ -35,10 +35,10 @@ public class SecurityConfig {
 
         CustomUserDetails user1 = new CustomUserDetails("user",
                 "{noop}password",
-                Set.of(Authorities.CREATE_USER));
+                Set.of(Permission.CREATE_USER));
         CustomUserDetails admin = new CustomUserDetails("admin",
                 "{noop}password",
-                Set.of(Authorities.CREATE_USER, Authorities.READ_GROUPS));
+                Set.of(Permission.CREATE_USER, Permission.READ_GROUPS));
 
         manager.createUser(user1);
         manager.createUser(admin);

@@ -15,9 +15,9 @@ public class CustomUserDetails implements UserDetails {
 
     private String username;
     private String password;
-    private Set<String> authorities;
+    private Set<Permission> authorities;
 
-    public CustomUserDetails(String username, String password, Set<String> authorities) {
+    public CustomUserDetails(String username, String password, Set<Permission> authorities) {
         this.username = username;
         this.password = password;
         this.authorities = authorities;
@@ -26,7 +26,7 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities.stream()
-                .map(authority -> (GrantedAuthority) () -> authority)
+                .map(authority -> (GrantedAuthority) authority::getPermission)
                 .collect(Collectors.toSet());
     }
 

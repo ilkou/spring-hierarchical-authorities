@@ -23,15 +23,16 @@ public class HierarchicalSecuredAspect {
         Method method = signature.getMethod();
         HierarchicalSecured hierarchicalSecuredAnnotation = method.getAnnotation(HierarchicalSecured.class);
 
-        String[] shouldHaveAuthorities = hierarchicalSecuredAnnotation.value();
+        Permission[] shouldHaveAuthorities = hierarchicalSecuredAnnotation.value();
 
         Collection<? extends GrantedAuthority> userAuthorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 
         // check if the user has any of the authorities or dependent authorities
-        for (String shouldHaveAuthority : shouldHaveAuthorities) {
+        for (Permission shouldHaveAuthority : shouldHaveAuthorities) {
             for (GrantedAuthority userGrantedAuthority : userAuthorities) {
                 String userAuthority = userGrantedAuthority.getAuthority();
-                if (userAuthority.equals(shouldHaveAuthority) || AuthoritiesDependencies.isDependent(userAuthority, shouldHaveAuthority)) {
+
+                if (userAuthority.equals(shouldHaveAuthority.getPermission()) || shouldHaveAuthority.isDependent(userAuthority)) {
                     return joinPoint.proceed();
                 }
             }

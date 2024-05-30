@@ -1,6 +1,5 @@
 package hierarchical.authorities.demo;
 
-import hierarchical.authorities.demo.security.Authorities;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,7 +19,7 @@ public class HierarchicalSecuredTests {
     private MockMvc mvc;
 
     @Test
-    @WithMockUser(username = "user1", authorities = {Authorities.CREATE_USER})
+    @WithMockUser(username = "user1", authorities = {"CREATE_USER"})
     void testCreateUser() throws Exception {
         mvc.perform(get("/create-user"))
                 .andExpect(status().isOk())
@@ -29,7 +28,7 @@ public class HierarchicalSecuredTests {
     }
 
     @Test
-    @WithMockUser(username = "user2", authorities = {Authorities.READ_GROUPS})
+    @WithMockUser(username = "user2", authorities = {"READ_GROUPS"})
     void testReadGroups() throws Exception {
         mvc.perform(get("/read-groups"))
                 .andExpect(status().isOk())
@@ -37,7 +36,7 @@ public class HierarchicalSecuredTests {
     }
 
     @Test
-    @WithMockUser(username = "user3", authorities = {Authorities.CREATE_USER})
+    @WithMockUser(username = "user3", authorities = {"CREATE_USER"})
     void testReadGroupsWithDependentAuthority() throws Exception {
         mvc.perform(get("/read-groups"))
                 .andExpect(status().isOk())
@@ -45,9 +44,23 @@ public class HierarchicalSecuredTests {
     }
 
     @Test
-    @WithMockUser(username = "user4", authorities = {Authorities.READ_GROUPS})
+    @WithMockUser(username = "user4", authorities = {"READ_GROUPS"})
     void testCreateUserWithBadAuthority() throws Exception {
         mvc.perform(get("/create-user"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "user5")
+    void testCreateUserWithNoAuthorities() throws Exception {
+        mvc.perform(get("/create-user"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "user6")
+    void testReadGroupsWithNoAuthorities() throws Exception {
+        mvc.perform(get("/read-groups"))
                 .andExpect(status().isForbidden());
     }
 
