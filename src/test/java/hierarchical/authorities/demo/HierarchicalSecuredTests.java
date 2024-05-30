@@ -51,5 +51,19 @@ public class HierarchicalSecuredTests {
                 .andExpect(status().isForbidden());
     }
 
+    @Test
+    @WithMockUser(username = "user5")
+    void testCreateUserWithNoAuthorities() throws Exception {
+        mvc.perform(get("/create-user"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "user6")
+    void testReadGroupsWithNoAuthorities() throws Exception {
+        mvc.perform(get("/read-groups"))
+                .andExpect(status().isForbidden());
+    }
+
 
 }
