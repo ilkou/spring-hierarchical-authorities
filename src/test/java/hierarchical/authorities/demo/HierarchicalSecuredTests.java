@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class HierarchicalSecuredTests {
+class HierarchicalSecuredTests {
 
     @Autowired
     private MockMvc mvc;
