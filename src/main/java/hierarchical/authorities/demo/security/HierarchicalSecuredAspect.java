@@ -15,7 +15,7 @@ import java.util.Collection;
 
 @Aspect
 @Component
-public class HierarchicalSecuredAspect {
+class HierarchicalSecuredAspect {
 
     @Around("methodsAnnotatedWithHierarchicalSecuredAnnotation()")
     public Object processMethodsAnnotatedWithHierarchicalSecuredAnnotation(ProceedingJoinPoint joinPoint) throws Throwable {

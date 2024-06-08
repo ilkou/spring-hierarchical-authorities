@@ -16,7 +16,7 @@ import java.util.Set;
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
 @EnableWebSecurity
-public class SecurityConfig {
+class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(
