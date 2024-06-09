@@ -19,6 +19,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
+
+	// https://mvnrepository.com/artifact/org.casbin/casbin-spring-boot-starter
+	implementation("org.casbin:casbin-spring-boot-starter:1.4.0")
+
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")

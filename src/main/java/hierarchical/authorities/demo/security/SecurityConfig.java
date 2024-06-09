@@ -1,5 +1,6 @@
 package hierarchical.authorities.demo.security;
 
+import org.casbin.jcasbin.main.Enforcer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
 import java.util.Set;
 
@@ -18,13 +20,20 @@ import java.util.Set;
 @EnableWebSecurity
 class SecurityConfig {
 
+    private final Enforcer enforcer;
+
+    public SecurityConfig(Enforcer enforcer) {
+        this.enforcer = enforcer;
+    }
+
+
     @Bean
-    public SecurityFilterChain filterChain(
-            HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authz -> authz.anyRequest().authenticated())
+                .addFilterBefore(new CasbinFilter(enforcer), AuthorizationFilter.class)
                 .formLogin(Customizer.withDefaults());
         return http.build();
     }

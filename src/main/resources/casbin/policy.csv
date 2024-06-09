@@ -1,0 +1,7 @@
+# Define policies for roles
+p, READ_GROUPS, /read-groups, GET
+p, CREATE_USER, /create-user, POST
+
+# Define role inheritance
+g, CREATE_USER, READ_GROUPS
+
